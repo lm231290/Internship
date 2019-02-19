@@ -7,10 +7,11 @@ import java.util.Iterator;
 public class MyList<E> implements Collection {
 
     public MyList() {
-        a = (E[]) createArray(a.getClass(), 16);
+        a = new Object[16];
+//        a = (E[]) createArray(a.getClass(), 16);
     }
 
-    private E[] a;
+    private Object[] a;
 
     public static <E> E[] createArray(Class<E> type, int size){
         return (E[]) Array.newInstance(type, size);
@@ -64,7 +65,7 @@ public class MyList<E> implements Collection {
             @Override
             public E next() {
                 currPosition++;
-                return a[currPosition - 1];
+                return (E)a[currPosition - 1];
             }
         };
     }
@@ -76,6 +77,11 @@ public class MyList<E> implements Collection {
 
     @Override
     public boolean add(Object o) {
+
+        if (a == null)
+//            a = (E[]) createArray(a.getClass(), 16);
+            a = new Object[16];
+
         try {
             checkSize(1);
             a[size] = (E)o;
@@ -152,6 +158,7 @@ public class MyList<E> implements Collection {
             if (match) {
                 remove(a[i]);
                 atLeastOneRemoved = true;
+                size--;
             }
         }
         return atLeastOneRemoved;
@@ -182,7 +189,7 @@ public class MyList<E> implements Collection {
     }
 //                         TODO:   rename it
     private void moveLeft(int firstElementToBeMovedIndex, int amountOfMoves ){
-        for (int i = firstElementToBeMovedIndex; i <a.length; i++) {
+        for (int i = firstElementToBeMovedIndex; i <size; i++) {
             a[i - amountOfMoves] = a[i];
             a[i] = null;
         }
@@ -202,7 +209,7 @@ public class MyList<E> implements Collection {
     }
 
     private void resize(int newLength){
-        E[] temp = a.clone();
+        Object[] temp = a.clone();
         a = (E[]) createArray(a.getClass(), newLength);
         for (int i = 0; i < size; i++) {
             a[i] = temp[i];
