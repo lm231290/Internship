@@ -1,6 +1,8 @@
 import mycollections.MyList;
 import org.junit.jupiter.api.*;
 
+import java.util.Iterator;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MyListTest {
@@ -47,6 +49,18 @@ public class MyListTest {
     public void indexOf() {
         assertEquals(2, list.indexOf(72));
         assertEquals(-1, list.indexOf(73));
+
+    }
+
+    @Test
+    public void iterator() {
+        Iterator iterator = list.iterator();
+        Object[] array = list.toArray();
+        int index = 0;
+        while(iterator.hasNext()) {
+            assertEquals(array[index], iterator.next());
+            index++;
+        }
 
     }
 
