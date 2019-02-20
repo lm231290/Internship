@@ -140,6 +140,7 @@ public class MyList<E> implements Collection {
             if (!match) {
                 remove(a[i]);
                 dismatch = true;
+                i--;
             }
         }
         return dismatch;
@@ -151,14 +152,14 @@ public class MyList<E> implements Collection {
         Object[] array = c.toArray();
         for (int i = 0; i < size; i++) {
             boolean match = false;
-            for (int j = 0; j < c.size(); j++) {
+            for (int j = 0; j < array.length; j++) {
                 if (array[j] == a[i])
                     match = true;
             }
             if (match) {
                 remove(a[i]);
                 atLeastOneRemoved = true;
-                size--;
+                i--;
             }
         }
         return atLeastOneRemoved;
