@@ -65,6 +65,13 @@ public class MyListTest {
     }
 
     @Test
+    public void resize() {
+        for (int i = 0; i < 100; i++) {
+            assertEquals(true, list.add(i));
+        }
+    }
+
+    @Test
     public void toArray() {
     }
 

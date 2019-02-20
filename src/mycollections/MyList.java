@@ -13,9 +13,9 @@ public class MyList<E> implements Collection {
 
     private Object[] a;
 
-    public static <E> E[] createArray(Class<E> type, int size){
-        return (E[]) Array.newInstance(type, size);
-    }
+//    public static <E> E[] createArray(Class<E> type, int size){
+//        return (E[]) Array.newInstance(type, size);
+//    }
 
     // amount of elements in 'a'
     private int size = 0;
@@ -32,12 +32,9 @@ public class MyList<E> implements Collection {
 
     @Override
     public boolean contains(Object o) {
-
-        for (int i = 0; i < size; i++) {
-            if (o == a[i])
-                return true;
-        }
-        return false;
+        if (indexOf(o) == -1)
+            return false;
+        return true;
     }
 
     public int indexOf(Object o) {
@@ -131,13 +128,6 @@ public class MyList<E> implements Collection {
         boolean dismatch = false;
         Object[] array = c.toArray();
         for (int i = 0; i < size; i++) {
-//            boolean match = false;
-//            for (int j = 0; j < array.length; j++) {
-//                if (array[j] == a[i]) {
-//                    match = true;
-//                    break;
-//                }
-//            }
             if (!checkForMatch(a[i], array)) {
                 remove(a[i]);
                 dismatch = true;
@@ -152,11 +142,6 @@ public class MyList<E> implements Collection {
         boolean atLeastOneRemoved = false;
         Object[] array = c.toArray();
         for (int i = 0; i < size; i++) {
-//            boolean match = false;
-//            for (int j = 0; j < array.length; j++) {
-//                if (array[j] == a[i])
-//                    match = true;
-//            }
             if (checkForMatch(a[i], array)) {
                 remove(a[i]);
                 atLeastOneRemoved = true;
@@ -222,7 +207,7 @@ public class MyList<E> implements Collection {
     private void resize(int newLength){
         Object[] temp = a.clone();
 //        a = (E[]) createArray(a.getClass(), newLength);
-        a = new Object[16];
+        a = new Object[newLength];
         for (int i = 0; i < size; i++) {
             a[i] = temp[i];
         }
