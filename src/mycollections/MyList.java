@@ -122,7 +122,8 @@ public class MyList<E> implements Collection {
 
     @Override
     public void clear() {
-        a = (E[]) createArray(a.getClass(), 16);
+//        a = (E[]) createArray(a.getClass(), 16);
+        a = new Object[16];
     }
 
     @Override
@@ -220,7 +221,8 @@ public class MyList<E> implements Collection {
 
     private void resize(int newLength){
         Object[] temp = a.clone();
-        a = (E[]) createArray(a.getClass(), newLength);
+//        a = (E[]) createArray(a.getClass(), newLength);
+        a = new Object[16];
         for (int i = 0; i < size; i++) {
             a[i] = temp[i];
         }
