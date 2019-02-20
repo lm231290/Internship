@@ -8,14 +8,9 @@ public class MyList<E> implements Collection {
 
     public MyList() {
         a = new Object[16];
-//        a = (E[]) createArray(a.getClass(), 16);
     }
 
     private Object[] a;
-
-//    public static <E> E[] createArray(Class<E> type, int size){
-//        return (E[]) Array.newInstance(type, size);
-//    }
 
     // amount of elements in 'a'
     private int size = 0;
@@ -38,10 +33,9 @@ public class MyList<E> implements Collection {
     }
 
     public int indexOf(Object o) {
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++)
             if (o == a[i])
                 return i;
-        }
         return -1;
     }
 
@@ -76,7 +70,6 @@ public class MyList<E> implements Collection {
     public boolean add(Object o) {
 
         if (a == null)
-//            a = (E[]) createArray(a.getClass(), 16);
             a = new Object[16];
 
         try {
@@ -111,9 +104,8 @@ public class MyList<E> implements Collection {
 
     private void addArray(E[] array) {
         checkSize(array.length);
-        for (int i = 0; i < array.length; i++) {
+        for (int i = 0; i < array.length; i++)
             a[size+i] = array[i];
-        }
         size += array.length;
     }
 
@@ -127,13 +119,12 @@ public class MyList<E> implements Collection {
     public boolean retainAll(Collection c) {
         boolean dismatch = false;
         Object[] array = c.toArray();
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++)
             if (!checkForMatch(a[i], array)) {
                 remove(a[i]);
                 dismatch = true;
                 i--;
             }
-        }
         return dismatch;
     }
 
@@ -141,22 +132,20 @@ public class MyList<E> implements Collection {
     public boolean removeAll(Collection c) {
         boolean atLeastOneRemoved = false;
         Object[] array = c.toArray();
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++)
             if (checkForMatch(a[i], array)) {
                 remove(a[i]);
                 atLeastOneRemoved = true;
                 i--;
             }
-        }
         return atLeastOneRemoved;
     }
 
     private boolean checkForMatch(Object o, Object[] array){
-        for (int j = 0; j < a.length; j++) {
+        for (int j = 0; j < a.length; j++)
             if (o == a[j]) {
                 return true;
             }
-        }
         return false;
     }
 
@@ -165,17 +154,9 @@ public class MyList<E> implements Collection {
         if (c.size() == 0)
             return true;
         Object[] array = c.toArray();
-        for (int i = 0; i < array.length; i++) {
-//            boolean match = false;
-//            for (int j = 0; j < a.length; j++) {
-//                if (array[i] == a[j]) {
-//                    match = true;
-//                    break;
-//                }
-//            }
+        for (int i = 0; i < array.length; i++)
             if (!checkForMatch(array[i], a))
                 return false;
-        }
         return true;
     }
 
@@ -206,10 +187,8 @@ public class MyList<E> implements Collection {
 
     private void resize(int newLength){
         Object[] temp = a.clone();
-//        a = (E[]) createArray(a.getClass(), newLength);
         a = new Object[newLength];
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++)
             a[i] = temp[i];
-        }
     }
 }
