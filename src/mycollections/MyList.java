@@ -142,8 +142,8 @@ public class MyList<E> implements Collection {
     }
 
     private boolean checkForMatch(Object o, Object[] array){
-        for (int j = 0; j < a.length; j++)
-            if (o == a[j]) {
+        for (int j = 0; j < array.length; j++)
+            if (o == array[j]) {
                 return true;
             }
         return false;
