@@ -130,14 +130,14 @@ public class MyList<E> implements Collection {
         boolean dismatch = false;
         Object[] array = c.toArray();
         for (int i = 0; i < size; i++) {
-            boolean match = false;
-            for (int j = 0; j < c.size(); j++) {
-                if (array[j] == a[i]) {
-                    match = true;
-                    break;
-                }
-            }
-            if (!match) {
+//            boolean match = false;
+//            for (int j = 0; j < array.length; j++) {
+//                if (array[j] == a[i]) {
+//                    match = true;
+//                    break;
+//                }
+//            }
+            if (!checkForMatch(a[i], array)) {
                 remove(a[i]);
                 dismatch = true;
                 i--;
@@ -151,12 +151,12 @@ public class MyList<E> implements Collection {
         boolean atLeastOneRemoved = false;
         Object[] array = c.toArray();
         for (int i = 0; i < size; i++) {
-            boolean match = false;
-            for (int j = 0; j < array.length; j++) {
-                if (array[j] == a[i])
-                    match = true;
-            }
-            if (match) {
+//            boolean match = false;
+//            for (int j = 0; j < array.length; j++) {
+//                if (array[j] == a[i])
+//                    match = true;
+//            }
+            if (checkForMatch(a[i], array)) {
                 remove(a[i]);
                 atLeastOneRemoved = true;
                 i--;
@@ -165,20 +165,29 @@ public class MyList<E> implements Collection {
         return atLeastOneRemoved;
     }
 
+    private boolean checkForMatch(Object o, Object[] array){
+        for (int j = 0; j < a.length; j++) {
+            if (o == a[j]) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public boolean containsAll(Collection c) {
         if (c.size() == 0)
             return true;
         Object[] array = c.toArray();
-        for (int i = 0; i < c.size(); i++) {
-            boolean match = false;
-            for (int j = 0; j < a.length; j++) {
-                if (array[i] == a[j]) {
-                    match = true;
-                    break;
-                }
-            }
-            if (!match)
+        for (int i = 0; i < array.length; i++) {
+//            boolean match = false;
+//            for (int j = 0; j < a.length; j++) {
+//                if (array[i] == a[j]) {
+//                    match = true;
+//                    break;
+//                }
+//            }
+            if (!checkForMatch(array[i], a))
                 return false;
         }
         return true;
