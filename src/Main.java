@@ -6,9 +6,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-        LinkedList<Integer> list = new LinkedList<>();
+        ArrayList<Integer> list = new ArrayList<>();
 
-        int n = 100000;
+        int n = 5000;
 
         MyCollection<Integer> collection = new MyCollection<>();
         long timeForMyCollection = System.currentTimeMillis() * -1;
@@ -24,7 +24,7 @@ public class Main {
         for(int i = 0; i < n; i++)
             list.add(list.size()/2, i);
         timeForLinkedList += System.currentTimeMillis();
-        System.out.println("\nLinkedList:\t" + timeForLinkedList);
+        System.out.println("\nArrayList:\t" + timeForLinkedList);
         System.out.println( timeForLinkedList - timeForMyCollection );
     }
 }

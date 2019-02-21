@@ -8,22 +8,21 @@ import java.util.LinkedList;
 
 public class MyCollection<E> implements Collection {
     public MyCollection() {
-
+        firstSegment = new LinkedList<>();
+        secondSegment = new LinkedList<>();
     }
 
     LinkedList<E> firstSegment;
     LinkedList<E> secondSegment;
 
     public boolean addToMiddle(Object o) {
-        try {
-            if (firstSegment.size() > secondSegment.size())
-                secondSegment.addFirst((E) o);
-            else
-                firstSegment.addLast((E) o);
-        } catch (Exception e) {
-            return false;
-        }
-        balance();
+        if (firstSegment.size() > secondSegment.size())
+            secondSegment.addFirst((E) o);
+        else
+            firstSegment.addLast((E) o);
+
+//        if (Math.abs(firstSegment.size() - secondSegment.size()) > 2)
+//            balance();
         return true;
     }
 
