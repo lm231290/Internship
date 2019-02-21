@@ -8,22 +8,23 @@ public class Main {
 
         LinkedList<Integer> list = new LinkedList<>();
 
-        int n = 1000000;
+        int n = 100000;
 
         MyCollection<Integer> collection = new MyCollection<>();
-        long timeForMyCollection = System.nanoTime() * -1;
+        long timeForMyCollection = System.currentTimeMillis() * -1;
         for (int i = 0; i < n; i++) {
             collection.addToMiddle(i);
         }
-        timeForMyCollection += System.nanoTime();
+        timeForMyCollection += System.currentTimeMillis();
 
         System.out.print("\nMyCollection:\t" + timeForMyCollection);
 
 
-        long timeForLinkedList = System.nanoTime() * -1;
+        long timeForLinkedList = System.currentTimeMillis() * -1;
         for(int i = 0; i < n; i++)
             list.add(list.size()/2, i);
-        timeForLinkedList -= System.nanoTime();
-        System.out.println("LinkedList:\t" + timeForLinkedList);
+        timeForLinkedList += System.currentTimeMillis();
+        System.out.println("\nLinkedList:\t" + timeForLinkedList);
+        System.out.println( timeForLinkedList - timeForMyCollection );
     }
 }
