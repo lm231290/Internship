@@ -1,4 +1,6 @@
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.BiFunction;
 
 
@@ -6,10 +8,28 @@ public class Lambda {
     public static void main (String[] args) {
 
 
+        List<Car> cars = Arrays.asList(
+                new Car("AA1111BX", 2007),
+                new Car("AK5555IT", 2010),
+                new Car(null, 2012),
+                new Car("", 2015),
+                new Car("AI3838PP", 2017));
+
+        cars.stream().filter(car -> car.getNumber() != null && !car.getNumber().isEmpty())
+                .forEach(car -> System.out.println(car.getNumber()));
+
+//            for (Car car : cars) {
+//                if (car.getYear() > 2010) {
+//                    String number = car.getNumber();
+//                    if (number != null && !number.isEmpty())
+//                        System.out.println(number);
+//                }
+//            }
 
 
 
-        System.out.println(calculate(10D, 30D, (value1, value2) -> value1 + value2));
+
+//        System.out.println(calculate(10D, 30D, (value1, value2) -> value1 + value2));
     }
 
     public static double calculate(Double x, Double y, BiFunction<Double, Double, Double> biFunction){
