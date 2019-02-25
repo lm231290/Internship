@@ -15,19 +15,13 @@ public class Lambda {
                 new Car("", 2015),
                 new Car("AI3838PP", 2017));
 
-        cars.stream().filter(car -> car.getNumber() != null && !car.getNumber().isEmpty())
-                .forEach(car -> System.out.println(car.getNumber()));
-
-//            for (Car car : cars) {
-//                if (car.getYear() > 2010) {
-//                    String number = car.getNumber();
-//                    if (number != null && !number.isEmpty())
-//                        System.out.println(number);
-//                }
-//            }
 
 
-
+        cars.stream()
+                .filter(car -> car.getYear() > 2010)
+                .map(Car::getNumber)
+                .filter(c -> c != null && !c.isEmpty())
+                .forEach(System.out::println);
 
 //        System.out.println(calculate(10D, 30D, (value1, value2) -> value1 + value2));
     }
