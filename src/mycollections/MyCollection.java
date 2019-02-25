@@ -1,7 +1,5 @@
 package mycollections;
 
-import java.lang.reflect.Executable;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -20,9 +18,6 @@ public class MyCollection<E> implements Collection {
             secondSegment.addFirst((E) o);
         else
             firstSegment.addLast((E) o);
-
-//        if (Math.abs(firstSegment.size() - secondSegment.size()) > 2)
-//            balance();
         return true;
     }
 
@@ -118,7 +113,17 @@ public class MyCollection<E> implements Collection {
 
     @Override
     public Object[] toArray(Object[] a) {
-        return new Object[0];
+        Object[] array = new Object[firstSegment.size() + secondSegment.size()];
+//
+//        Object[] segmentArray = firstSegment.toArray();
+//        for (int i = 0; i < segmentArray .length; i++) {
+//            array[i] = segmentArray [i];
+//        }
+//        for (int i = 0; i < sec.length; i++) {
+//            array[i] = firstSegmentArray[i];
+//        }
+
+        return array;
     }
 
 }

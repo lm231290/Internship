@@ -1,5 +1,6 @@
 import mycollections.MyCollection;
 
+import javax.script.ScriptEngineManager;
 import java.util.*;
 
 public class Main {
@@ -8,7 +9,7 @@ public class Main {
 
         ArrayList<Integer> list = new ArrayList<>();
 
-        int n = 5000;
+        int n  = 100;
 
         MyCollection<Integer> collection = new MyCollection<>();
         long timeForMyCollection = System.currentTimeMillis() * -1;
@@ -18,13 +19,14 @@ public class Main {
         timeForMyCollection += System.currentTimeMillis();
 
         System.out.print("\nMyCollection:\t" + timeForMyCollection);
-
+        System.out.println(collection.toArray());
 
         long timeForLinkedList = System.currentTimeMillis() * -1;
         for(int i = 0; i < n; i++)
             list.add(list.size()/2, i);
         timeForLinkedList += System.currentTimeMillis();
         System.out.println("\nArrayList:\t" + timeForLinkedList);
+        collection.clear();
         System.out.println( timeForLinkedList - timeForMyCollection );
     }
 }
