@@ -35,14 +35,11 @@ public class TextSeeker {
                     File file = filesToBeChecked.poll();
                     try {
                         Scanner scanner = new Scanner(file);
-                        while(scanner.hasNextLine()) {
+                        while(scanner.hasNextLine())
                             if (scanner.nextLine().contains(textToBeFound)) {
                                 result.add(file);
-//                              TODO: find out about IllegalMonitorStateException and how to fix it here
-//                                notify();
                                 return;
                             }
-                        }
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
