@@ -114,16 +114,8 @@ public class MyCollection<E> implements Collection {
     @Override
     public Object[] toArray(Object[] a) {
         Object[] array = new Object[firstSegment.size() + secondSegment.size()];
-//
-//        Object[] segmentArray = firstSegment.toArray();
-//        for (int i = 0; i < segmentArray .length; i++) {
-//            array[i] = segmentArray [i];
-//        }
-//        for (int i = 0; i < sec.length; i++) {
-//            array[i] = firstSegmentArray[i];
-//        }
 
-        return array;
+        return new Object[0];
     }
 
 }
