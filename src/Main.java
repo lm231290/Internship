@@ -16,10 +16,10 @@ public class Main {
                     ".txt", new File("C:\\Users\\Вован\\IdeaProjects"),"toBeFound");
         manager.run();
 
-//        Main m = new Main();
-//        synchronized (m) {
-//            m.wait(1000);
-//        }
+        Main m = new Main();
+        synchronized (m) {
+            m.wait(1000);
+        }
         System.out.println(manager.getResults());
 
         /*

@@ -11,7 +11,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class TextSeeker implements QueueConsumer{
 
-    public TextSeeker(LinkedBlockingQueue<File> queue, String textToBeFound) {
+    public TextSeeker(PriorityQueue<File> queue, String textToBeFound) {
         this.queue = queue;
         this.textToBeFound = textToBeFound;
 //        this.producingInProgress = producingInProgress;
@@ -19,7 +19,7 @@ public class TextSeeker implements QueueConsumer{
 //    private volatile Boolean producingInProgress;
     private Thread operatingThread;
 
-    private LinkedBlockingQueue<File> queue;
+    private PriorityQueue<File> queue;
     private ArrayList<File> result = new ArrayList<>();
     private String textToBeFound;
 

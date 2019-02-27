@@ -6,7 +6,7 @@ import java.util.PriorityQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class TextFindingOperationManager implements Runnable{
+public class TextFindingOperationManager{
     public TextFindingOperationManager(String extension, File root, String textToBeFound) {
         this.extension = extension;
         this.root = root;
@@ -20,76 +20,22 @@ public class TextFindingOperationManager implements Runnable{
     private FilesSeeker producer;
     private TextSeeker consumer;
     private Thread producerThread;
-    private Thread managingThread;
-    private ReentrantLock lock;
-//    private volatile Boolean producingInProgress = true;
+    private Thread consumerThread;
 
+    private PriorityQueue<File> queue = new PriorityQueue<>();
 
-
-    private void startProducing() {
+    public void run() {
         producer = new FilesSeeker(root, extension);
-        producerThread = new Thread(null, () -> producer.produce(producingQueue));
+        producerThread = new Thread(() -> producer.produce(queue));
         producerThread.run();
-    }
-
-    private void startConsuming() {
-        consumer = new TextSeeker(consumingQueue, textToBeFound);
-        consumer.operate(consumingQueue);
-    }
-
-    private void stopConsuming() {
-        if (consumer == null)
-            return;
-
-        Thread consumerThread = consumer.getOperatingThread();
-        consumerThread.interrupt();
-    }
-
-    private void stopManaging() {
-        managingThread.interrupt();
-    }
-
-    public void stop() {
-        stopConsuming();
-        stopManaging();
+        consumer = new TextSeeker(queue, textToBeFound);
+        consumerThread = new Thread(() -> consumer.accept(queue));
+        consumerThread.run();
     }
 
     public ArrayList<File> getResults() {
         return consumer.getResult();
     }
 
-    private void manageQueues() {
-        lock = new ReentrantLock();
-        managingThread = new Thread(null, () -> {
-//            Object object = new Object();
-            do {
 
-                if (producingQueue.size() == 0) {
-                    continue;
-//                    try {
-//                        synchronized (object) {
-//                            object.wait(10);
-//                        }
-//                    } catch (InterruptedException e) { }
-                }
-
-                if (producingQueue.size() > 0) {
-//                    lock = new ReentrantLock();
-//                    lock.lock();
-                    while (producingQueue.size() > 0) {
-                        consumingQueue.add(producingQueue.poll());
-                    }
-//                    lock.unlock();
-                }
-            } while (producerThread.isAlive());
-        });
-        managingThread.run();
-    }
-
-    @Override
-    public void run() {
-        startProducing();
-        manageQueues();
-        startConsuming();
-    }
 }
