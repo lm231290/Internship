@@ -3,8 +3,6 @@ package multithreading;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class TextFindingOperationManager{
     public TextFindingOperationManager(String extension, File root, String textToBeFound) {
@@ -15,8 +13,6 @@ public class TextFindingOperationManager{
     private String textToBeFound;
     private String extension;
     private File root;
-    private volatile PriorityQueue<File> producingQueue = new PriorityQueue<>();
-    private volatile LinkedBlockingQueue<File> consumingQueue = new LinkedBlockingQueue<>();
     private FilesSeeker producer;
     private TextSeeker consumer;
     private Thread producerThread;

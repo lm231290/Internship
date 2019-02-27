@@ -7,10 +7,8 @@ public class FilesSeeker implements QueueProducer{
     public FilesSeeker(File root, String extension) {
         this.root = root;
         this.extension = extension;
-//        this.producingInProgress = producingInProgress;
     }
 
-//    private volatile Boolean producingInProgress;
     private File root;
     private String extension;
     private ThreadGroup group = new ThreadGroup("group");
@@ -30,7 +28,6 @@ public class FilesSeeker implements QueueProducer{
                 thread.run();
             }
         }
-//        producingInProgress = false;
     }
 
     @Override
