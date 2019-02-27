@@ -48,7 +48,7 @@ public class TextSeeker {
         }
     }
 
-    public ArrayList<File> getResultList() throws InterruptedException {
+    public ArrayList<File> getResult() throws InterruptedException {
         findFiles(directory);
         while (group.activeCount() != 0) {
             wait(10);

@@ -41,7 +41,7 @@ public class MyList<E> implements Collection {
 
     @Override
     public Iterator<E> iterator() {
-        return new Iterator<>() {
+        return new Iterator<E>() {
 
             int arraySize = size;
             int currPosition = 0;

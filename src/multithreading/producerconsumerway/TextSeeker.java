@@ -18,7 +18,7 @@ public class TextSeeker {
     }
     private String textToBeFound;
     private File directory;
-    private boolean end = false;
+    private volatile boolean end = false;
 
     private volatile ArrayList<File> resultList = new ArrayList<>();
 
@@ -33,7 +33,7 @@ public class TextSeeker {
     private void checkFiles() {
         Thread thread = new Thread(() -> {
             do {
-                while (group.activeCount() != 0 || queue.size() != 0) {
+                while (queue.size() != 0) {
                     try {
                         checkForText(queue.poll());
                     } catch (NullPointerException e) {

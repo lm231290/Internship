@@ -6,46 +6,61 @@ import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Scanner;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.locks.ReentrantLock;
 
-public class TextSeeker {
-    public TextSeeker(String textToBeFound, String path) {
+public class TextSeeker implements QueueConsumer{
+
+    public TextSeeker(LinkedBlockingQueue<File> queue, String textToBeFound) {
+        this.queue = queue;
         this.textToBeFound = textToBeFound;
-        FilesSeeker filesSeeker = new FilesSeeker(path, true);
-        filesToBeChecked = new PriorityQueue<>(filesSeeker.getFilesList());
+//        this.producingInProgress = producingInProgress;
     }
+//    private volatile Boolean producingInProgress;
+    private Thread operatingThread;
+
+    private LinkedBlockingQueue<File> queue;
+    private ArrayList<File> result = new ArrayList<>();
     private String textToBeFound;
-    private volatile Queue<File> filesToBeChecked;
-    private volatile ArrayList<File> result;
-    private ThreadGroup group;
 
-    public ArrayList<File> getResult() throws InterruptedException {
-        checkForText();
-        while (group.activeCount() != 0) {
-            wait(10);
-        }
-        return (ArrayList<File>) result.clone();
+    boolean checkFile(File file, String textToBeFound) {
+        try {
+            Scanner scanner = new Scanner(file);
+            while(scanner.hasNextLine())
+                if (scanner.nextLine().contains(textToBeFound))
+                    return true;
+        } catch (FileNotFoundException e) { }
+        return false;
     }
 
-    private void checkForText() {
-        result = new ArrayList<>();
-        group = new ThreadGroup("group");
-        for (int i = 0; i < filesToBeChecked.size(); i++) {
+    public Thread getOperatingThread() {
+        return operatingThread;
+    }
 
-            Thread thread = new Thread(group, () -> {
-                    File file = filesToBeChecked.poll();
-                    try {
-                        Scanner scanner = new Scanner(file);
-                        while(scanner.hasNextLine())
-                            if (scanner.nextLine().contains(textToBeFound)) {
-                                result.add(file);
-                                return;
-                            }
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
+    @Override
+    public void operate(Queue queue) {
+        if (operatingThread != null) {
+            operatingThread.interrupt();
+            operatingThread = null;
+        }
+        operatingThread = new Thread(null, () -> {
+                while(true) {
+                    if (queue.size() == 0)
+                        continue;
+                    File file = (File) queue.poll();
+
+                    if (checkFile(file, textToBeFound))
+                        result.add(file);
+
+                    if (queue.size() == 0) {
+                        return;
                     }
                 }
-            );
-            thread.run();
-        }
+            });
+        operatingThread.run();
+    }
+
+    public ArrayList<File> getResult() {
+        return (ArrayList<File>) result.clone();
     }
 }
