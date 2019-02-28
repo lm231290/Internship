@@ -2,23 +2,28 @@ import multithreading.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.PriorityQueue;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Main {
 
-    public static void main(String[] args) throws InterruptedException, FileNotFoundException {
+    public static void main(String[] args) throws InterruptedException {
 
-        QueueProducer producer = new FilesSeeker(
-                new File("C:\\Users\\Вован\\IdeaProjects"),
-                ".txt");
-        QueueConsumer consumer = new TextSeeker("toBeFound");
+        QueueProducer producer = new FilesSeekerOnLocks(
+                new File("C:\\Users\\Вован\\IdeaProjects"),".txt");
+        QueueConsumer consumer = new TextSeekerOnLocks("toBeFound");
+
+        PriorityQueue queue = new PriorityQueue();
+        ReentrantLock lock = new ReentrantLock();
+
+        ((TextSeekerOnLocks) consumer).setLock(lock);
+        ((FilesSeekerOnLocks) producer).setLock(lock);
 
         ConsumerProducerManager manager =
-                new ConsumerProducerManager(producer, consumer);
+                new ConsumerProducerManager(producer, consumer, queue);
 
         manager.run();
         manager.join();
-
-
 
         System.out.println(manager.getResults());
 

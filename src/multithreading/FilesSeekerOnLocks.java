@@ -5,11 +5,10 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class FilesSeeker implements QueueProducer{
-    public FilesSeeker(File root, String extension) {
+public class FilesSeekerOnLocks implements QueueProducer{
+    public FilesSeekerOnLocks(File root, String extension) {
         this.root = root;
         this.extension = extension;
-        this.queue = queue;
     }
 
     private PriorityQueue<File> queue;
@@ -38,12 +37,12 @@ public class FilesSeeker implements QueueProducer{
     }
 
     @Override
-    public void setQueue(PriorityQueue queue) {
-        this.queue = queue;
+    public void setQueue(Queue queue) {
+        this.queue = (PriorityQueue<File>) queue;
     }
 
     @Override
-    public void produce(PriorityQueue queue) {
+    public void produce(Queue queue) {
         if (this.queue == null)
             throw new NullPointerException("Queue is not defined");
 

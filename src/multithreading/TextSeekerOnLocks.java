@@ -4,13 +4,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.Scanner;
 import java.util.concurrent.locks.ReentrantLock;
 
 
-public class TextSeeker implements QueueConsumer{
+public class TextSeekerOnLocks implements QueueConsumer{
 
-    public TextSeeker(String textToBeFound) {
+    public TextSeekerOnLocks(String textToBeFound) {
         this.textToBeFound = textToBeFound;
         this.lock = lock;
     }
@@ -30,13 +31,13 @@ public class TextSeeker implements QueueConsumer{
     }
 
     @Override
-    public void setQueue(PriorityQueue queue) {
-        this.queue = queue;
+    public void setQueue(Queue queue) {
+        this.queue = (PriorityQueue<File>) queue;
 
     }
 
     @Override
-    public void operate(PriorityQueue queue) {
+    public void operate(Queue queue) {
         if (this.queue == null)
             throw new NullPointerException("Queue is not defined");
 
@@ -60,6 +61,7 @@ public class TextSeeker implements QueueConsumer{
             }
         }
     }
+
     public void run() {
         operate(queue);
     }
@@ -68,7 +70,7 @@ public class TextSeeker implements QueueConsumer{
         this.lock = lock;
     }
 
-    public ArrayList<File> getResult() {
-        return (ArrayList<File>) result.clone();
+    public ArrayList<Object> getResult() {
+        return (ArrayList<Object>) result.clone();
     }
 }

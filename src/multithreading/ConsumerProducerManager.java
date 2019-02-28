@@ -1,14 +1,13 @@
 package multithreading;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.PriorityQueue;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.Queue;
 
 public class ConsumerProducerManager extends Thread{
-    public ConsumerProducerManager(QueueProducer producer, QueueConsumer consumer) {
+    public ConsumerProducerManager(QueueProducer producer, QueueConsumer consumer, Queue queue) {
         this.producer = producer;
         this.consumer = consumer;
+        this.queue = queue;
     }
 
     private QueueProducer producer;
@@ -16,23 +15,19 @@ public class ConsumerProducerManager extends Thread{
     private Thread producerThread;
     private Thread consumerThread;
 
-    private PriorityQueue queue = new PriorityQueue<>();
-    private ReentrantLock lock;
+    private Queue queue;
 
     public void run() {
-        lock = new ReentrantLock();
-        producer.setLock(lock);
         producer.setQueue(queue);
         producerThread = new Thread(producer);
         producerThread.run();
 
-        consumer.setLock(lock);
         consumer.setQueue(queue);
         consumerThread = new Thread(consumer);
         consumerThread.run();
     }
 
-    public ArrayList<File> getResults() {
+    public ArrayList<Object> getResults() {
         return consumer.getResult();
     }
 
