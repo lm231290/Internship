@@ -7,17 +7,16 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Queue;
 import java.util.Scanner;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.locks.ReentrantLock;
-
 
 public class TextSeeker implements QueueConsumer {
     public TextSeeker(String textToBeFound) {
         this.textToBeFound = textToBeFound;
     }
-    
+
     private LinkedBlockingQueue<File> queue;
-    private ArrayList<File> result = new ArrayList<>();
+    private CopyOnWriteArrayList<File> result = new CopyOnWriteArrayList<>();
     private String textToBeFound;
 
     boolean checkFile(File file, String textToBeFound) {
