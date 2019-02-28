@@ -6,15 +6,17 @@ import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Scanner;
+import java.util.concurrent.locks.ReentrantLock;
 
 
 public class TextSeeker implements QueueConsumer{
 
-    public TextSeeker(PriorityQueue<File> queue, String textToBeFound) {
+    public TextSeeker(PriorityQueue<File> queue, String textToBeFound, ReentrantLock lock) {
         this.queue = queue;
         this.textToBeFound = textToBeFound;
+        this.lock = lock;
     }
-
+    private ReentrantLock lock;
     private PriorityQueue<File> queue;
     private ArrayList<File> result = new ArrayList<>();
     private String textToBeFound;
@@ -31,21 +33,24 @@ public class TextSeeker implements QueueConsumer{
 
     @Override
     public void operate(Queue queue) {
-        Thread operatingThread = new Thread(null, () -> {
-                while(true) {
-                    if (queue.size() == 0)
-                        continue;
-                    File file = (File) queue.poll();
+        while(true) {
+            if (queue.size() == 0)
+                continue;
 
-                    if (checkFile(file, textToBeFound))
-                        result.add(file);
+            lock.lock();
+            File file = (File) queue.poll();
+            lock.unlock();
 
-                    if (queue.size() == 0) {
-                        return;
-                    }
-                }
-            });
-        operatingThread.run();
+            if (checkFile(file, textToBeFound))
+                result.add(file);
+
+            if (queue.size() == 0) {
+                return;
+            }
+        }
+    }
+    public void run() {
+        operate(queue);
     }
 
     public ArrayList<File> getResult() {

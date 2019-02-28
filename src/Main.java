@@ -7,19 +7,12 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException, FileNotFoundException {
 
-//        multithreading.producerconsumerway.TextSeeker textSeeker
-//                = new multithreading.producerconsumerway.TextSeeker("toBeFound", "C:\\Users\\Вован\\IdeaProjects");
-//        System.out.println(textSeeker.getResultList().toString());
-
         TextFindingOperationManager manager =
                 new TextFindingOperationManager(
                     ".txt", new File("C:\\Users\\Вован\\IdeaProjects"),"toBeFound");
         manager.run();
+        manager.join();
 
-        Main m = new Main();
-        synchronized (m) {
-            m.wait(1000);
-        }
         System.out.println(manager.getResults());
 
         /*

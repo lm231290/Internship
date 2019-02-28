@@ -3,13 +3,15 @@ package multithreading;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
+import java.util.concurrent.locks.ReentrantLock;
 
-public class TextFindingOperationManager{
+public class TextFindingOperationManager extends Thread{
     public TextFindingOperationManager(String extension, File root, String textToBeFound) {
         this.extension = extension;
         this.root = root;
         this.textToBeFound = textToBeFound;
     }
+
     private String textToBeFound;
     private String extension;
     private File root;
@@ -19,13 +21,16 @@ public class TextFindingOperationManager{
     private Thread consumerThread;
 
     private PriorityQueue<File> queue = new PriorityQueue<>();
+    private ReentrantLock lock;
 
     public void run() {
-        producer = new FilesSeeker(root, extension);
-        producerThread = new Thread(() -> producer.produce(queue));
+        lock = new ReentrantLock();
+
+        producer = new FilesSeeker(root, extension, queue, lock);
+        producerThread = new Thread(producer);
         producerThread.run();
-        consumer = new TextSeeker(queue, textToBeFound);
-        consumerThread = new Thread(() -> consumer.accept(queue));
+        consumer = new TextSeeker(queue, textToBeFound, lock);
+        consumerThread = new Thread(consumer);
         consumerThread.run();
     }
 
