@@ -5,6 +5,8 @@ import multithreading.QueueProducer;
 import java.io.File;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class FilesSeeker implements QueueProducer {
     public FilesSeeker(File root, String extension) {
@@ -15,9 +17,9 @@ public class FilesSeeker implements QueueProducer {
     private PriorityQueue<File> queue;
     private File root;
     private String extension;
-    private ThreadGroup group = new ThreadGroup("group");
+    private ExecutorService pool = Executors.newFixedThreadPool(10);
 
-    private void findFiles(File directory, String extension, ThreadGroup group){
+    private void findFiles(File directory, String extension){
         File[] files = directory.listFiles();
         for (int i = 0; i < files.length; i++) {
             if (files[i].getName().contains(extension)) {
@@ -29,8 +31,7 @@ public class FilesSeeker implements QueueProducer {
 
             if (files[i].isDirectory()) {
                 int finalI = i;
-                Thread thread = new Thread(group, () -> findFiles(files[finalI], extension, group));
-                thread.run();
+                pool.execute(() -> findFiles(files[finalI], extension));
             }
         }
     }
@@ -45,7 +46,7 @@ public class FilesSeeker implements QueueProducer {
         if (this.queue == null)
             throw new NullPointerException("Queue is not defined");
 
-        findFiles(root, extension, group);
+        findFiles(root, extension);
     }
 
     @Override
