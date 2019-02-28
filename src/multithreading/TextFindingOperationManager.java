@@ -6,30 +6,28 @@ import java.util.PriorityQueue;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class TextFindingOperationManager extends Thread{
-    public TextFindingOperationManager(String extension, File root, String textToBeFound) {
-        this.extension = extension;
-        this.root = root;
-        this.textToBeFound = textToBeFound;
+    public TextFindingOperationManager(QueueProducer producer, QueueConsumer consumer) {
+        this.producer = producer;
+        this.consumer = consumer;
     }
 
-    private String textToBeFound;
-    private String extension;
-    private File root;
-    private FilesSeeker producer;
-    private TextSeeker consumer;
+    private QueueProducer producer;
+    private QueueConsumer consumer;
     private Thread producerThread;
     private Thread consumerThread;
 
-    private PriorityQueue<File> queue = new PriorityQueue<>();
+    private PriorityQueue queue = new PriorityQueue<>();
     private ReentrantLock lock;
 
     public void run() {
         lock = new ReentrantLock();
-
-        producer = new FilesSeeker(root, extension, queue, lock);
+        producer.setLock(lock);
+        producer.setQueue(queue);
         producerThread = new Thread(producer);
         producerThread.run();
-        consumer = new TextSeeker(queue, textToBeFound, lock);
+
+        consumer.setLock(lock);
+        consumer.setQueue(queue);
         consumerThread = new Thread(consumer);
         consumerThread.run();
     }

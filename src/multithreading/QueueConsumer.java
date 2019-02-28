@@ -1,13 +1,13 @@
 package multithreading;
 
-import java.util.Queue;
+import java.util.ArrayList;
+import java.util.PriorityQueue;
+import java.util.concurrent.locks.ReentrantLock;
 
 
 public interface QueueConsumer<T> extends Runnable{
-    default void accept(Queue<T> queue) {
-        operate(queue);
-    }
-
-
-    void operate(Queue<T> queue);
+    void setQueue(PriorityQueue<T> queue);
+    void operate(PriorityQueue<T> queue);
+    ArrayList<T> getResult();
+    void setLock(ReentrantLock lock);
 }

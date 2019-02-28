@@ -1,4 +1,4 @@
-import multithreading.TextFindingOperationManager;
+import multithreading.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,11 +7,18 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException, FileNotFoundException {
 
+        QueueProducer producer = new FilesSeeker(
+                new File("C:\\Users\\Вован\\IdeaProjects"),
+                ".txt");
+        QueueConsumer consumer = new TextSeeker("toBeFound");
+
         TextFindingOperationManager manager =
-                new TextFindingOperationManager(
-                    ".txt", new File("C:\\Users\\Вован\\IdeaProjects"),"toBeFound");
+                new TextFindingOperationManager(producer, consumer);
+
         manager.run();
         manager.join();
+
+
 
         System.out.println(manager.getResults());
 
