@@ -3,7 +3,7 @@ package multithreading;
 import java.util.ArrayList;
 import java.util.Queue;
 
-public class ConsumerProducerManager extends Thread{
+public class ConsumerProducerManager {
     public ConsumerProducerManager(QueueProducer producer, QueueConsumer consumer, Queue queue) {
         this.producer = producer;
         this.consumer = consumer;

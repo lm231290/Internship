@@ -24,7 +24,6 @@ public class Main {
                 new ConsumerProducerManager(producer, consumer, queue);
 
         manager.run();
-        manager.join();
 
         System.out.println(manager.getResults());
 
