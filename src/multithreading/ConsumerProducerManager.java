@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class TextFindingOperationManager extends Thread{
-    public TextFindingOperationManager(QueueProducer producer, QueueConsumer consumer) {
+public class ConsumerProducerManager extends Thread{
+    public ConsumerProducerManager(QueueProducer producer, QueueConsumer consumer) {
         this.producer = producer;
         this.consumer = consumer;
     }

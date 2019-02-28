@@ -12,8 +12,8 @@ public class Main {
                 ".txt");
         QueueConsumer consumer = new TextSeeker("toBeFound");
 
-        TextFindingOperationManager manager =
-                new TextFindingOperationManager(producer, consumer);
+        ConsumerProducerManager manager =
+                new ConsumerProducerManager(producer, consumer);
 
         manager.run();
         manager.join();
