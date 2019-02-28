@@ -1,12 +1,14 @@
-package multithreading;
+package multithreading.on_locks;
+
+import multithreading.QueueProducer;
 
 import java.io.File;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class FilesSeekerOnLocks implements QueueProducer{
-    public FilesSeekerOnLocks(File root, String extension) {
+public class FilesSeeker implements QueueProducer {
+    public FilesSeeker(File root, String extension) {
         this.root = root;
         this.extension = extension;
     }

@@ -1,7 +1,8 @@
 import multithreading.*;
+import multithreading.on_locks.FilesSeeker;
+import multithreading.on_locks.TextSeeker;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.PriorityQueue;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -9,15 +10,15 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException {
 
-        QueueProducer producer = new FilesSeekerOnLocks(
+        QueueProducer producer = new FilesSeeker(
                 new File("C:\\Users\\Вован\\IdeaProjects"),".txt");
-        QueueConsumer consumer = new TextSeekerOnLocks("toBeFound");
+        QueueConsumer consumer = new TextSeeker("toBeFound");
 
         PriorityQueue queue = new PriorityQueue();
         ReentrantLock lock = new ReentrantLock();
 
-        ((TextSeekerOnLocks) consumer).setLock(lock);
-        ((FilesSeekerOnLocks) producer).setLock(lock);
+        ((TextSeeker) consumer).setLock(lock);
+        ((FilesSeeker) producer).setLock(lock);
 
         ConsumerProducerManager manager =
                 new ConsumerProducerManager(producer, consumer, queue);
