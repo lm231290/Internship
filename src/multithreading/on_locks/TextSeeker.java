@@ -46,7 +46,7 @@ public class TextSeeker implements QueueConsumer {
             throw new NullPointerException("Lock is not defined");
 
 
-        while(true) {
+        while(queue != null) {
             if (queue.size() == 0)
                 continue;
 
@@ -58,7 +58,11 @@ public class TextSeeker implements QueueConsumer {
                 lock.lock();
                 result.add(file);
                 lock.unlock();
+//                System.out.println(file.getName());
             }
+
+            if (queue.size() == 0)
+                return;
         }
     }
 

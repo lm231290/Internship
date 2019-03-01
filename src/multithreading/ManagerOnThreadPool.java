@@ -1,13 +1,12 @@
 package multithreading;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Queue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ConsumerProducerManager {
-    public ConsumerProducerManager(QueueProducer producer, QueueConsumer consumer, Queue queue) {
+public class ManagerOnThreadPool implements Manager {
+    public ManagerOnThreadPool(QueueProducer producer, QueueConsumer consumer, Queue queue) {
         this.producer = producer;
         this.consumer = consumer;
         this.queue = queue;

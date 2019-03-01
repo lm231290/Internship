@@ -52,6 +52,7 @@ public class FilesSeeker implements QueueProducer {
         try {
             FilesSeeker newFileSeeker = new FilesSeeker(folder, this.extension);
             newFileSeeker.setQueue(queue);
+            newFileSeeker.setExecutor(executor);
             executor.execute(newFileSeeker);
         } catch (NullPointerException e) {
             System.out.println("Executor is not defined");
