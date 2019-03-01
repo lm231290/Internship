@@ -43,7 +43,7 @@ public class ManagerOnCustomPool extends Thread implements Manager {
 
     private void processTasksQueue() {
         while (activeCount() < 11 && tasksQueue.size() != 0) {
-            new Thread(group, tasksQueue.poll()).run();
+            new Thread(group, tasksQueue.poll()).start();
         }
     }
 
