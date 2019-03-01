@@ -25,6 +25,11 @@ public class Main {
 
         manager.run();
 
+        Main m = new Main();
+        synchronized (m) {
+            m.wait(6000);
+        }
+
         System.out.println(manager.getResults());
 
         /*

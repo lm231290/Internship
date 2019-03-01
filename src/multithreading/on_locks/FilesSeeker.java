@@ -1,5 +1,6 @@
 package multithreading.on_locks;
 
+import multithreading.MyProducerExecutor;
 import multithreading.QueueProducer;
 
 import java.io.File;
@@ -20,6 +21,7 @@ public class FilesSeeker implements QueueProducer {
     private String extension;
     private ExecutorService pool = Executors.newFixedThreadPool(10);
     private ReentrantLock lock;
+    private MyProducerExecutor executor;
 
     private void findFiles(File directory, String extension, Queue<File> queue){
         File[] files = directory.listFiles();
@@ -34,7 +36,7 @@ public class FilesSeeker implements QueueProducer {
 
             if (files[i].isDirectory()) {
                 int finalI = i;
-                pool.execute(() -> findFiles(files[finalI], extension, queue));
+                searchInFolder(files[finalI]);
             }
         }
     }
@@ -53,6 +55,27 @@ public class FilesSeeker implements QueueProducer {
             throw new NullPointerException("Lock is not defined");
 
         findFiles(root, extension, queue);
+    }
+
+    @Override
+    public void setExecutor(MyProducerExecutor executor) {
+        this.executor = executor;
+    }
+
+    @Override
+    public void searchInFolder(File folder) {
+        try {
+            FilesSeeker newFileSeeker = new FilesSeeker(folder, this.extension);
+            newFileSeeker.setQueue(queue);
+            newFileSeeker.setLock(lock);
+            executor.execute(newFileSeeker);
+        } catch (NullPointerException e) {
+            System.out.println("Executor is not defined");
+        }
+    }
+
+    public String getExtension() {
+        return extension;
     }
 
     @Override

@@ -59,10 +59,6 @@ public class TextSeeker implements QueueConsumer {
                 result.add(file);
                 lock.unlock();
             }
-
-            if (queue.size() == 0) {
-                return;
-            }
         }
     }
 

@@ -1,5 +1,6 @@
 package multithreading.on_concurrent_collections;
 
+import multithreading.MyProducerExecutor;
 import multithreading.QueueProducer;
 
 import java.io.File;
@@ -14,10 +15,12 @@ public class FilesSeeker implements QueueProducer {
         this.extension = extension;
     }
 
+
+    private MyProducerExecutor executor;
     private LinkedBlockingQueue<File> queue;
     private File root;
     private String extension;
-    private ExecutorService pool = Executors.newFixedThreadPool(10);
+//    private ExecutorService pool = Executors.newFixedThreadPool(10);
 
     private void findFiles(File directory, String extension, Queue<File> queue){
         File[] files = directory.listFiles();
@@ -29,9 +32,24 @@ public class FilesSeeker implements QueueProducer {
 
             if (files[i].isDirectory()) {
                 int finalI = i;
-                pool.execute(() -> findFiles(files[finalI], extension, queue));
+                findFiles(root, extension, queue);
             }
         }
+    }
+
+    @Override
+    public void searchInFolder(File folder) {
+        try {
+            FilesSeeker newFileSeeker = new FilesSeeker(folder, this.extension);
+            newFileSeeker.setQueue(queue);
+            executor.execute(newFileSeeker);
+        } catch (NullPointerException e) {
+            System.out.println("Executor is not defined");
+        }
+    }
+
+    public String getExtension() {
+        return extension;
     }
 
     @Override
@@ -45,6 +63,11 @@ public class FilesSeeker implements QueueProducer {
             throw new NullPointerException("Queue is not defined");
 
         findFiles(root, extension, queue);
+    }
+
+    @Override
+    public void setExecutor(MyProducerExecutor executor) {
+        this.executor = executor;
     }
 
     @Override
