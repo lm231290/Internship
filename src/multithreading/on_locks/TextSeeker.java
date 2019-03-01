@@ -61,8 +61,7 @@ public class TextSeeker implements QueueConsumer {
 //                System.out.println(file.getName());
             }
 
-            if (queue.size() == 0)
-                return;
+
         }
     }
 

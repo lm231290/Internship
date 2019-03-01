@@ -23,8 +23,7 @@ public class Main {
         ManagerOnCustomPool manager =
                 new ManagerOnCustomPool(producer, consumer, queue);
 
-        manager.run();
-
+        manager.start();
         manager.join();
 
         System.out.println(manager.getResults());

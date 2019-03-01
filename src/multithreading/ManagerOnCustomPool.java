@@ -28,16 +28,16 @@ public class ManagerOnCustomPool extends Thread implements Manager {
         producer.setExecutor(newProducer -> newProducer(newProducer));
         producer.setQueue(queue);
 
-        new Thread(group, producer).run();
+        new Thread(group, producer).start();
 
         new Thread(() -> {
             //while at least one producer is active
             while (group.activeCount() > 0) {
                 processTasksQueue();
             }
-        }).run();
+        }).start();
 
-        new Thread(consumer).run();
+        new Thread(consumer).start();
 
     }
 
