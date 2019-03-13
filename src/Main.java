@@ -9,7 +9,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
-
+/*
         QueueProducer producer = new FilesSeeker(
                 new File("C:\\Users\\Вован\\IdeaProjects"),".txt");
         QueueConsumer consumer = new TextSeeker("toBeFound");

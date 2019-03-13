@@ -62,7 +62,9 @@ public class MyClassLoader extends ClassLoader {
         byte[] data = new byte[(int)size];
 
         InputStream in = jarFile.getInputStream(jarEntry);
+//        jarFile.
         in.read(data);
+        in.close();
         return data;
     }
 
