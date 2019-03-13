@@ -49,10 +49,6 @@ public class TextSeeker implements QueueConsumer {
 
             if (checkFile(file, textToBeFound))
                 result.add(file);
-
-            if (queue.size() == 0) {
-                return;
-            }
         }
     }
 

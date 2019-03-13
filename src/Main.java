@@ -20,11 +20,15 @@ public class Main {
         ((TextSeeker) consumer).setLock(lock);
         ((FilesSeeker) producer).setLock(lock);
 
-        ManagerOnCustomPool manager =
-                new ManagerOnCustomPool(producer, consumer, queue);
+        ManagerOnThreadPool manager =
+                new ManagerOnThreadPool(producer, consumer, queue);
 
-        manager.start();
-        manager.join();
+        manager.run();
+
+        Main m = new Main();
+        synchronized (m) {
+            m.wait(4000);
+        }
 
         System.out.println(manager.getResults());
 

@@ -29,6 +29,7 @@ public class ManagerOnCustomPool extends Thread implements Manager {
         producer.setQueue(queue);
 
         new Thread(group, producer).start();
+        new Thread(consumer).start();
 
         new Thread(() -> {
             //while at least one producer is active
@@ -37,7 +38,6 @@ public class ManagerOnCustomPool extends Thread implements Manager {
             }
         }).start();
 
-        new Thread(consumer).start();
 
     }
 
