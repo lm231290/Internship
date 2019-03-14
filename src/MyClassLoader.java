@@ -21,17 +21,20 @@ public class MyClassLoader extends ClassLoader {
     private void cacheClasses() {
         try {
             JarFile jarFile = new JarFile(fileName);
-
             Enumeration<JarEntry> entries = jarFile.entries();
             while (entries.hasMoreElements()) {
-
                 JarEntry jarEntry = entries.nextElement();
 
                 if (match(urlToPackageName(jarEntry.getName()), packageName)) {
                     byte[] classData = loadClassData(jarFile, jarEntry);
 
                     if (classData != null) {
-                        Class<?> clazz = defineClass(stripClassName(urlToPackageName(jarEntry.getName())), classData, 0, classData.length);
+                        Class<?> clazz = defineClass(
+                                stripClassName(
+                                        urlToPackageName(jarEntry.getName())),
+                                                         classData,
+                                                         0,
+                                                         classData.length);
                         cache.put(clazz.getName(), clazz);
                     }
                 }
@@ -61,10 +64,9 @@ public class MyClassLoader extends ClassLoader {
             return null;
         byte[] data = new byte[(int)size];
 
-        InputStream in = jarFile.getInputStream(jarEntry);
-//        jarFile.
-        in.read(data);
-        in.close();
+        try (InputStream in = jarFile.getInputStream(jarEntry)) {
+            in.read(data);
+        }
         return data;
     }
 
