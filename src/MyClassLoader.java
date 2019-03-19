@@ -19,8 +19,8 @@ public class MyClassLoader extends ClassLoader {
     private String packageName;
 
     private void cacheClasses() {
-        try {
-            JarFile jarFile = new JarFile(fileName);
+        try (JarFile jarFile = new JarFile(fileName)) {
+
             Enumeration<JarEntry> entries = jarFile.entries();
             while (entries.hasMoreElements()) {
                 JarEntry jarEntry = entries.nextElement();
